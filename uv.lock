@@ -1,0 +1,55 @@
+version = 1
+revision = 3
+requires-python = ">=3.13"
+
+[[package]]
+name = "ghidra-export-cli"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "pyghidra" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pyghidra", specifier = ">=3.0.0" }]
+
+[[package]]
+name = "jpype1"
+version = "1.5.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "packaging" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/bd/68/47fa634cbd0418cbca86355e9421425f5892ee994f7338106327e49f9117/jpype1-1.5.2.tar.gz", hash = "sha256:74a42eccf21d30394c1832aec3985a14965fa5320da087b65029d172c0cec43b", size = 1011421, upload-time = "2025-01-27T10:33:16.738Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/76/be/b37005bec457b94eaaf637a663073b7c5df70113fd4ae4865f6e386c612f/jpype1-1.5.2-cp313-cp313-macosx_10_13_universal2.whl", hash = "sha256:4acb098cb1698b14b6e5c79e275f4c70dcc01b0fb93425f206d0a5e380e43c66", size = 583600, upload-time = "2025-01-27T10:34:40.865Z" },
+    { url = "https://files.pythonhosted.org/packages/20/a3/00a265d424f7d47e0dc547df2320225ce0143fec671faf710def41404b8c/jpype1-1.5.2-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:c08480c7d18125664a12bf0a244b96b49c05105306b65937dbefeb05ab4b2847", size = 466426, upload-time = "2025-01-27T10:34:42.592Z" },
+    { url = "https://files.pythonhosted.org/packages/0e/cd/890d9ed43d7e1366e151c0ed7046e59f6c1cb7ecfc8ecfefe9e5e79f8420/jpype1-1.5.2-cp313-cp313-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:6819f231c651ef876ffb23158083ea498ff80b57c46da537148412aa22235a13", size = 509513, upload-time = "2025-01-27T10:34:44.538Z" },
+    { url = "https://files.pythonhosted.org/packages/6d/d0/191db2e9ab6ae7029368a488c9d88235966843b185aba7925e54aa0c0013/jpype1-1.5.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:42fe8db66ad4e5c66f637f5c4de82fca880ba696104e1f4a7e575885923dead8", size = 493474, upload-time = "2025-01-27T10:34:46.37Z" },
+    { url = "https://files.pythonhosted.org/packages/e3/b7/e1787633b41d609320b41d0dd87fe3118598210609e4e3f6cef93cfcef40/jpype1-1.5.2-cp313-cp313-win_amd64.whl", hash = "sha256:2b96365f1302df2fb3c6ad73117d6fe450a55b7550fd7fecadac3cec5bc7117c", size = 356150, upload-time = "2025-01-27T10:34:56.58Z" },
+    { url = "https://files.pythonhosted.org/packages/a8/c8/76541ffefa6fc4ee7a3a8c7e6d9e376f5ac8980a47ff31a8c330ffbb5dcf/jpype1-1.5.2-cp313-cp313t-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4ea5001f6a7a42be6f5f500dcb20dad5738fef6a7d19c86dbcf482b803f01cab", size = 468412, upload-time = "2025-01-27T10:34:49.155Z" },
+    { url = "https://files.pythonhosted.org/packages/be/6f/827ca43aaa5ea6b773aa90b405acec22bd152d1284aa40f7c0c02bc1657b/jpype1-1.5.2-cp313-cp313t-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:220d33305998ff7a7cbc9c0b5eea54f2691fdc21e60d52ad56276ea13fd5bd4c", size = 511322, upload-time = "2025-01-27T10:34:52.832Z" },
+    { url = "https://files.pythonhosted.org/packages/76/37/f1396d7b66f9b6867a279db510e625ba51c8a4b4397f59a6c2b20fb55548/jpype1-1.5.2-cp313-cp313t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6f1ed152fdd5200067dc0cdcd4683530b87a6be3987b98596cdf5a7d3ac4c679", size = 494714, upload-time = "2025-01-27T10:34:54.785Z" },
+]
+
+[[package]]
+name = "packaging"
+version = "25.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a1/d4/1fc4078c65507b51b96ca8f8c3ba19e6a61c8253c72794544580a7b6c24d/packaging-25.0.tar.gz", hash = "sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f", size = 165727, upload-time = "2025-04-19T11:48:59.673Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/20/12/38679034af332785aac8774540895e234f4d07f7545804097de4b666afd8/packaging-25.0-py3-none-any.whl", hash = "sha256:29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484", size = 66469, upload-time = "2025-04-19T11:48:57.875Z" },
+]
+
+[[package]]
+name = "pyghidra"
+version = "3.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "jpype1" },
+    { name = "packaging" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/63/02/16f94ba4d32c01395d50973fe3aba1da9e9bf3551bc44364de3e8c9d71eb/pyghidra-3.0.0.tar.gz", hash = "sha256:865769da8e2575a97e2d531982039c12b9f8022d715d62e50b59fafd22be2c80", size = 51699, upload-time = "2025-12-08T18:07:33.168Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/40/3e/0a5e4c786a7338d9fe68998257e9624839fdb51f70063842eddb18fd1107/pyghidra-3.0.0-py3-none-any.whl", hash = "sha256:b8380b285124059c2976523dfd7eabbf619b25b65383bc636384acbd8dbc9e08", size = 50325, upload-time = "2025-12-08T18:07:32.267Z" },
+]
