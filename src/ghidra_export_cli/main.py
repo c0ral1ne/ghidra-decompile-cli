@@ -130,8 +130,8 @@ def load_program(project, bin_path) -> "Program":
 
 def initialize():
     parser = argparse.ArgumentParser(
-        prog="ghidra-export-cli",
-        description="TODO: description",
+        prog="gdecompile",
+        description="Decompile binary programs using pyghidra and output results to stdout (default)",
     )
     parser.add_argument("binary_path")
     parser.add_argument(
