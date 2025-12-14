@@ -1,15 +1,14 @@
 import os
-import sys
 import argparse
 import pyghidra
 from dataclasses import dataclass
 
 
-PROJECT_DIR = '/tmp/ghidra-export-cli'
-PROJECT_NAME = 'ghidra_export'
+PROJECT_DIR = "/tmp/ghidra-export-cli"
+PROJECT_NAME = "ghidra_export"
 
-FUNCTION_FILTER = {'register_tm_clones', 'deregister_tm_clones'}
-GLOBAL_VARS_FILTER = {'stdin', 'stderr', 'stdout'}
+FUNCTION_FILTER = {"register_tm_clones", "deregister_tm_clones"}
+GLOBAL_VARS_FILTER = {"stdin", "stderr", "stdout"}
 
 DECOMPILED_FUNCTION_HEADER = "/* ===== Function: {} @ {} ===== */\n"
 DECOMPILED_FORMAT = """/*
@@ -20,12 +19,14 @@ DECOMPILED_FORMAT = """/*
 {}\n\n\n{}
 """
 
+
 @dataclass
 class DecompiledFunctionResults:
     name: str
     address: str
     code: str
     global_vars: dict[str, "HighSymbol"]
+
 
 @dataclass
 class DecompiledResults:
@@ -51,7 +52,9 @@ class GhidraExport:
         user_funcs = []
         for func in self.program.getFunctionManager().getFunctions(True):
             fname = func.getName()
-            if include_thunk or (not func.isThunk() and fname[0] != '_' and fname not in FUNCTION_FILTER):
+            if include_thunk or (
+                not func.isThunk() and fname[0] != "_" and fname not in FUNCTION_FILTER
+            ):
                 user_funcs.append(func)
         return user_funcs
 
@@ -63,30 +66,39 @@ class GhidraExport:
         try:
             res = self.ifc.decompileFunction(f, 0, self.monitor)
             body = res.getDecompiledFunction().getC().strip()
-            source = f'{source}{body}'
-
+            source = f"{source}{body}"
 
             hf = res.getHighFunction()
             for high_sym in hf.getGlobalSymbolMap().getSymbols():
                 hname = high_sym.getName()
-                if high_sym.getSymbol().getSymbolType() == SymbolType.LABEL and not hname.startswith('PTR_') and hname not in GLOBAL_VARS_FILTER:
+                if (
+                    high_sym.getSymbol().getSymbolType() == SymbolType.LABEL
+                    and not hname.startswith("PTR_")
+                    and hname not in GLOBAL_VARS_FILTER
+                ):
                     global_variables[hname] = high_sym
         except Exception as e:
             # TODO: print error log
             source = f"{source}/* Error decompiling {f.getName()}: {e} */"
 
-        return DecompiledFunctionResults(f.getName(), str(f.getEntryPoint()), source, global_variables)
+        return DecompiledFunctionResults(
+            f.getName(), str(f.getEntryPoint()), source, global_variables
+        )
 
     def decompile(self, include_thunk=False) -> DecompiledResults:
         decompiled_functions = []
         global_variables = {}
 
-        for f in sorted(self.get_functions(include_thunk), key=lambda x: x.getEntryPoint()):
+        for f in sorted(
+            self.get_functions(include_thunk), key=lambda x: x.getEntryPoint()
+        ):
             df_res = self.decompile_func(f)
             global_variables.update(df_res.global_vars)
             decompiled_functions.append(df_res)
 
-        return DecompiledResults(self.program.getName(), global_variables, decompiled_functions)
+        return DecompiledResults(
+            self.program.getName(), global_variables, decompiled_functions
+        )
 
     def decompile_source_formatted(self, decompiled_results: DecompiledResults) -> str:
         code = [dr.code for dr in decompiled_results.decompiled_functions]
@@ -96,19 +108,21 @@ class GhidraExport:
         for name, high_sym in decompiled_results.global_vars.items():
             # For some reason, high_sym.getSymbol().getAddress() sometimes fails to get accurate address
             addr = symbol_man.getGlobalSymbols(name)[0].getAddress()
-            globals.append((addr, f'/* {high_sym.getDataType()} {name} @ {addr} */'))
+            globals.append((addr, f"/* {high_sym.getDataType()} {name} @ {addr} */"))
 
         decompiled = DECOMPILED_FORMAT.format(
             decompiled_results.name,
-            '\n'.join([g[1] for g in sorted(globals)]),
-            '\n\n\n'.join(code)
+            "\n".join([g[1] for g in sorted(globals)]),
+            "\n\n\n".join(code),
         )
 
         return decompiled
 
 
 def load_program(project, bin_path) -> "Program":
-    load_results = pyghidra.program_loader().project(project).source(bin_path).name("bin").load()
+    load_results = (
+        pyghidra.program_loader().project(project).source(bin_path).name("bin").load()
+    )
     program = load_results.getPrimaryDomainObject()
     pyghidra.analyze(program)
     return program
@@ -116,19 +130,25 @@ def load_program(project, bin_path) -> "Program":
 
 def initialize():
     parser = argparse.ArgumentParser(
-        prog='ghidra-export-cli',
-        description='TODO: description',
+        prog="ghidra-export-cli",
+        description="TODO: description",
     )
-    parser.add_argument('binary_path')
-    parser.add_argument('-o', '--output', help='store results in output path instead of print to stdout')
-    parser.add_argument('-a', help='include all functions (thunk functions, stubs, etc.)', action='store_true')
+    parser.add_argument("binary_path")
+    parser.add_argument(
+        "-o", "--output", help="store results in output path instead of print to stdout"
+    )
+    parser.add_argument(
+        "-a",
+        help="include all functions (thunk functions, stubs, etc.)",
+        action="store_true",
+    )
     args = parser.parse_args()
 
     # Create project directory in /tmp
     try:
         os.makedirs(PROJECT_DIR, exist_ok=True)
     except OSError as e:
-        print(f'Error making project directory: {e}')
+        print(f"Error making project directory: {e}")
         exit(1)
 
     return args
@@ -136,15 +156,16 @@ def initialize():
 
 def main():
     args = initialize()
-    bin_path = os.path.abspath(args.binary_path)
 
     pyghidra.start()
-    from ghidra.base.project import GhidraProject
+
     with pyghidra.open_project(PROJECT_DIR, PROJECT_NAME, create=True) as project:
-        program = load_program(project, bin_path)
+        program = load_program(project, os.path.abspath(args.binary_path))
         ghidra_export = GhidraExport(project, program)
 
-        decompiled = ghidra_export.decompile_source_formatted(ghidra_export.decompile(args.a))
+        decompiled = ghidra_export.decompile_source_formatted(
+            ghidra_export.decompile(args.a)
+        )
         if args.output:
             with open(os.path.abspath(args.output), "w") as f:
                 f.write(decompiled)
@@ -155,4 +176,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
