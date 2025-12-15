@@ -9,8 +9,10 @@ $ uv tool install .
 
 ### Dependencies
 - uv
-- Ghidra
+- Ghidra >= 12.0.0
 
 ## Usage
+
+## Example
 
 ## Todo
