@@ -1,7 +1,7 @@
 import os
 import argparse
 import pyghidra
-from utils import GhidraExport, load_program
+from .utils import GhidraExport, load_program
 
 
 PROJECT_DIR = "/tmp/ghidra-export-cli"
