@@ -37,7 +37,11 @@ def initialize():
 def main():
     args = initialize()
 
-    pyghidra.start()
+    try:
+        pyghidra.start()
+    except ValueError as e:
+        print(e)
+        exit(1)
 
     with pyghidra.open_project(PROJECT_DIR, PROJECT_NAME, create=True) as project:
         program = load_program(project, os.path.abspath(args.binary_path))
